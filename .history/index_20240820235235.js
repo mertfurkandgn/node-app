@@ -1,23 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
 
 const app = express();
 app.use(bodyParser.json());
-
-// MySQL connection configuration
+const mysql = require('mysql');
 const connection = mysql.createConnection({
   host: '127.0.0.1',
   user: 'u859300455_admin',
-  password: 'Mert.ksk123', // Add password if required
+  password: 'Mert.ksk123',
   database: 'u859300455_db'
 });
 
-// Connect to MySQL
-connection.connect((err) => {
+db.connect((err) => {
   if (err) {
-    console.error('Error connecting to MySQL: ' + err.stack);
-    return;
+    throw err;
   }
   console.log('MySQL Connected...');
 });
@@ -27,7 +23,7 @@ app.post('/register', (req, res) => {
   const { name, surname, email, password } = req.body;
 
   const query = 'INSERT INTO users (name, surname, email, password) VALUES (?, ?, ?, ?)';
-  connection.query(query, [name, surname, email, password], (err, result) => {
+  db.query(query, [name, surname, email, password], (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send('Server error');
